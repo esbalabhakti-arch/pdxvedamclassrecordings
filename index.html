@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>PDX Vedam Śravaṇa-Gṛham</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    :root {
+      --bg-dark: #050810;
+      --card-bg: #101626;
+      --card-border: #323b56;
+      --accent: #f6c340;
+      --accent-soft: rgba(246, 195, 64, 0.12);
+      --text-main: #f7f7ff;
+      --text-muted: #9ca3c8;
+      --pill-bg: #0f3b33;
+      --pill-text: #a7f3d0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: radial-gradient(circle at top, #243b53 0, #050810 50%, #000 100%);
+      color: var(--text-main);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+    }
+
+    .app-shell {
+      width: 100%;
+      max-width: 1400px;
+      background: rgba(3, 7, 18, 0.9);
+      border-radius: 20px;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr);
+    }
+
+    .app-inner {
+      padding: 20px 24px 18px 24px;
+    }
+
+    header.app-header {
+      margin-bottom: 18px;
+    }
+
+    .title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .app-title-text {
+      font-size: 1.3rem;
+      font-weight: 650;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .sanskrit-pill {
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--pill-bg);
+      color: var(--pill-text);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      border: 1px solid rgba(52, 211, 153, 0.3);
+      white-space: nowrap;
+    }
+
+    .subtitle {
+      margin-top: 6px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .controls-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 10px 0 14px;
+      flex-wrap: wrap;
+    }
+
+    .select-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .select-group span.label {
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.75rem;
+    }
+
+    select {
+      background: #020617;
+      color: var(--text-main);
+      border-radius: 999px;
+      padding: 6px 26px 6px 12px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      font-size: 0.85rem;
+      appearance: none;
+      position: relative;
+    }
+
+    .date-select-wrapper {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .date-select-wrapper::after {
+      content: "▾";
+      position: absolute;
+      right: 10px;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    main.card-area {
+      background: radial-gradient(circle at top, #111827 0, #020617 80%);
+      border-radius: 16px;
+      padding: 24px;
+      border: 1px solid var(--card-border);
+      min-height: 280px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .date-heading {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 4px;
+    }
+
+    .image-frame {
+      flex: 1;
+      border-radius: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      background: radial-gradient(circle at top left, #1f2937 0, #020617 60%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .image-frame img {
+      max-width: 100%;
+      max-height: 600px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .image-placeholder {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      padding: 20px;
+      text-align: center;
+    }
+
+    section.audio-panel {
+      margin-top: 14px;
+    }
+
+    .audio-title {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      margin-bottom: 6px;
+    }
+
+    audio {
+      width: 100%;
+      outline: none;
+    }
+
+    .track-label-row {
+      margin-top: 6px;
+      display: flex;
+      justify-content: flex-start;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .track-pill {
+      padding: 3px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(249, 250, 251, 0.12);
+      background: linear-gradient(135deg, var(--accent-soft), transparent);
+      font-size: 0.78rem;
+      color: var(--text-main);
+    }
+
+    .footer {
+      margin-top: 12px;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .header-main {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .logo-box {
+      flex: 0 0 auto;
+    }
+
+    .logo-image {
+      height: 72px;
+      width: auto;
+      border-radius: 10px;
+      display: block;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    .header-text {
+      flex: 1 1 auto;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app-shell">
+    <div class="app-inner">
+      <header class="app-header">
+        <div class="header-main">
+          <div class="logo-box">
+            <img
+              src="background_template1.jpg"
+              alt="Śaṅkarāchārya"
+              class="logo-image"
+            />
+          </div>
+
+          <div class="header-text">
+            <div class="title-row">
+              <div class="app-title-text">PDX VEDAM ŚRAVAṆA-GṚHAM</div>
+              <div class="sanskrit-pill">अभ्यासोपकरणम्</div>
+            </div>
+            <div class="subtitle">
+              Choose a date, and listen to the class recording.
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="controls-row">
+        <div class="select-group">
+          <span class="label">Class Date:</span>
+          <div class="date-select-wrapper">
+            <select id="dateSelect"></select>
+          </div>
+        </div>
+      </section>
+
+      <main class="card-area">
+        <div class="date-heading" id="dateHeading"></div>
+
+        <div class="image-frame" id="imageFrame">
+          <div class="image-placeholder">
+            No class selected. Please choose a date from the dropdown above.
+          </div>
+        </div>
+
+        <section class="audio-panel">
+          <div class="audio-title">Class Recording</div>
+          <audio id="audioPlayer" controls preload="metadata">
+            <source id="audioSource" src="" type="audio/ogg" />
+            Your browser does not support the audio feature.
+          </audio>
+          <div class="track-label-row">
+            <div class="track-pill" id="trackLabel">No recording loaded</div>
+          </div>
+        </section>
+
+      </main>
+
+      <div class="footer">
+        <div>Tip: Add this page to your phone’s Home Screen to use it like an app.</div>
+        <div>contact: <a href="mailto:esbalabhakti@gmail.com">esbalabhakti@gmail.com</a></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="data.js"></script>
+
+  <script>
+    const dateSelectEl = document.getElementById("dateSelect");
+    const dateHeadingEl = document.getElementById("dateHeading");
+    const imageFrameEl = document.getElementById("imageFrame");
+    const audioPlayerEl = document.getElementById("audioPlayer");
+    const audioSourceEl = document.getElementById("audioSource");
+    const trackLabelEl = document.getElementById("trackLabel");
+
+    function renderClass(cls) {
+      if (!cls) {
+        dateHeadingEl.textContent = "";
+        imageFrameEl.innerHTML =
+          '<div class="image-placeholder">No class selected.</div>';
+        audioSourceEl.src = "";
+        audioPlayerEl.load();
+        trackLabelEl.textContent = "No recording loaded";
+        return;
+      }
+
+      dateHeadingEl.textContent = cls.displayDate || cls.id || "";
+
+      imageFrameEl.innerHTML = "";
+      if (cls.image) {
+        const img = document.createElement("img");
+        img.src = cls.image;
+        img.alt = cls.imageAlt || "";
+        imageFrameEl.appendChild(img);
+      } else {
+        imageFrameEl.innerHTML =
+          '<div class="image-placeholder">No mantra image available.</div>';
+      }
+
+      if (cls.audio) {
+        audioSourceEl.src = cls.audio;
+        audioPlayerEl.load();
+        trackLabelEl.textContent = cls.audioLabel || "Class Recording";
+      } else {
+        audioSourceEl.src = "";
+        audioPlayerEl.load();
+        trackLabelEl.textContent = "No recording for this date";
+      }
+    }
+
+    function populateDates() {
+      dateSelectEl.innerHTML = "";
+
+      if (!window.vedamClasses || vedamClasses.length === 0) {
+        const opt = document.createElement("option");
+        opt.value = "";
+        opt.textContent = "No classes configured";
+        dateSelectEl.appendChild(opt);
+        renderClass(null);
+        return;
+      }
+
+      vedamClasses.forEach((cls) => {
+        const opt = document.createElement("option");
+        opt.value = cls.id;
+        opt.textContent = cls.displayDate;
+        dateSelectEl.appendChild(opt);
+      });
+
+      const first = vedamClasses[0];
+      dateSelectEl.value = first.id;
+      renderClass(first);
+    }
+
+    dateSelectEl.addEventListener("change", () => {
+      const selectedId = dateSelectEl.value;
+      const cls = vedamClasses.find((c) => c.id === selectedId);
+      renderClass(cls || null);
+    });
+
+    populateDates();
+  </script>
+</body>
+</html>
