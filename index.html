@@ -3,62 +3,111 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vedam Classes</title>
+  <title>PDX Vedam Śravaṇa-Gṛham</title>
 
   <style>
     body {
       margin: 0;
-      font-family: sans-serif;
-      background-color: #0b1222;
-      color: white;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background-color: #050816;
+      color: #f9fbff;
     }
 
-    .container {
-      max-width: 900px;
+    .page {
+      max-width: 1100px;
       margin: 0 auto;
-      padding: 20px;
+      padding: 24px 20px 40px;
+    }
+
+    /* Header with small image */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+
+    .logo {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      object-fit: cover;
+      border: 1px solid #243b53;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+    }
+
+    .header-text h1 {
+      margin: 0;
+      font-size: 1.6rem;
+      letter-spacing: 0.03em;
+    }
+
+    .header-text p {
+      margin: 4px 0 0;
+      font-size: 0.95rem;
+      color: #d0d7ff;
+    }
+
+    /* Date selector row */
+    .controls-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 24px 0 8px;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #9fb3c8;
+    }
+
+    .controls-row label {
+      font-weight: 600;
+    }
+
+    .date-select {
+      padding: 6px 32px 6px 12px;
+      border-radius: 999px;
+      border: 1px solid #243b53;
+      background: linear-gradient(135deg, #0b1728, #07111f);
+      color: #f9fbff;
+      font-size: 0.9rem;
+      cursor: pointer;
+      appearance: none;
+      position: relative;
+    }
+
+    .date-select:focus {
+      outline: 2px solid #4c6fff;
+      outline-offset: 2px;
+    }
+
+    /* Card around image + audio section */
+    .session-card {
+      margin-top: 10px;
+      border-radius: 18px;
+      background: radial-gradient(circle at top left, #1a2942, #050816 55%);
+      border: 1px solid #141b2f;
+      padding: 18px 18px 22px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+    }
+
+    .session-heading {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #a5b4fc;
+      margin-bottom: 10px;
     }
 
     .class-image {
       width: 100%;
-      border-radius: 8px;
-      margin-bottom: 15px;
+      border-radius: 12px;
+      background-color: #020617;
+      object-fit: contain;
+      margin-bottom: 16px;
     }
 
-    .audio-player {
-      width: 100%;
-      margin-top: 10px;
-    }
-
-    .nav-buttons {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 20px;
-    }
-
-    button {
-      padding: 10px 14px;
-      background-color: #001f3f;
-      color: white;
-      border: 1px solid #445;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #003366;
-    }
-
-    .track-label {
-      margin-top: 8px;
-      background: #001a2c;
-      display: inline-block;
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 14px;
-    }
-
-    /* NEW: Track buttons */
     .track-list {
       margin-bottom: 10px;
     }
@@ -68,53 +117,132 @@
       margin-right: 6px;
       margin-bottom: 6px;
       font-size: 13px;
-      border-radius: 6px;
-      border: 1px solid #445;
-      background-color: #001a2c;
+      border-radius: 999px;
+      border: 1px solid #334e68;
+      background-color: #0b1728;
       color: #cfe6ff;
       cursor: pointer;
+      white-space: nowrap;
     }
 
     .track-button.active {
-      background-color: #0074d9;
-      color: white;
-      border-color: #66aaff;
+      background-color: #2563eb;
+      color: #ffffff;
+      border-color: #60a5fa;
+    }
+
+    .track-label {
+      margin-top: 4px;
+      background: #020617;
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+      color: #dbeafe;
+      border: 1px solid #1e293b;
+    }
+
+    .audio-player {
+      width: 100%;
+      margin-top: 8px;
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 18px;
+    }
+
+    .nav-buttons button {
+      padding: 8px 16px;
+      background: #020617;
+      color: #e5edff;
+      border-radius: 999px;
+      border: 1px solid #243b53;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .nav-buttons button:hover {
+      background: #0b1728;
     }
   </style>
 
+  <!-- Loads window.vedamClasses -->
   <script src="data.js"></script>
 </head>
 
 <body>
-  <div class="container">
-    <h2 id="session-date"></h2>
+  <div class="page">
+    <!-- Header with logo + title -->
+    <header class="header">
+      <img
+        src="Images/background_template1.jpg"
+        alt="PDX Vedam"
+        class="logo"
+      />
+      <div class="header-text">
+        <h1>PDX VEDAM ŚRAVAṆA-GṚHAM</h1>
+        <p>Choose a date, and listen to the class recording.</p>
+      </div>
+    </header>
 
-    <img id="class-image" class="class-image" src="" alt="" />
-
-    <!-- Audio section with multiple track buttons -->
-    <div id="track-list" class="track-list"></div>
-
-    <div class="track-label" id="track-label">Class Recording</div>
-
-    <audio id="audio-player" class="audio-player" controls>
-      <source id="audio-source" src="" type="audio/ogg" />
-      Your browser does not support the audio element.
-    </audio>
-
-    <div class="nav-buttons">
-      <button id="prev-btn">Previous</button>
-      <button id="next-btn">Next</button>
+    <!-- Date selector row -->
+    <div class="controls-row">
+      <label for="class-select">Class Date:</label>
+      <select id="class-select" class="date-select"></select>
     </div>
+
+    <!-- Card with image + audio -->
+    <section class="session-card">
+      <div id="session-date" class="session-heading"></div>
+
+      <img id="class-image" class="class-image" src="" alt="" />
+
+      <div id="track-list" class="track-list"></div>
+
+      <div class="track-label" id="track-label">Class Recording</div>
+
+      <audio id="audio-player" class="audio-player" controls>
+        <source id="audio-source" src="" type="audio/ogg" />
+        Your browser does not support the audio element.
+      </audio>
+
+      <div class="nav-buttons">
+        <button id="prev-btn">Previous</button>
+        <button id="next-btn">Next</button>
+      </div>
+    </section>
   </div>
 
   <script>
     let currentIndex = 0;
 
+    function populateDateDropdown() {
+      const selectEl = document.getElementById("class-select");
+      selectEl.innerHTML = "";
+
+      window.vedamClasses.forEach((cls, index) => {
+        const opt = document.createElement("option");
+        opt.value = index;
+        opt.textContent = cls.displayDate;
+        selectEl.appendChild(opt);
+      });
+
+      selectEl.value = String(currentIndex);
+
+      selectEl.addEventListener("change", (e) => {
+        currentIndex = parseInt(e.target.value, 10);
+        renderClass(currentIndex);
+      });
+    }
+
     function renderClass(index) {
       const cls = window.vedamClasses[index];
       if (!cls) return;
 
-      document.getElementById("session-date").textContent = cls.displayDate;
+      const sessionHeadingEl = document.getElementById("session-date");
+      sessionHeadingEl.textContent = cls.displayDate;
 
       const imageEl = document.getElementById("class-image");
       imageEl.src = cls.image;
@@ -127,25 +255,18 @@
 
       audioPlayerEl.pause();
 
-      /* -----------------------------------------------
-         MULTI-AUDIO SYSTEM
-      ------------------------------------------------- */
       if (cls.audio && Array.isArray(cls.audio) && cls.audio.length > 0) {
-        
-        // Function to load a specific audio track
         function loadTrack(trackIndex) {
           const track = cls.audio[trackIndex];
           audioSourceEl.src = track.file;
-          trackLabelEl.textContent = track.label;
+          trackLabelEl.textContent = track.label || "Class Recording";
           audioPlayerEl.load();
 
-          // Highlight selected button
           [...trackListEl.children].forEach((btn, i) => {
             btn.classList.toggle("active", i === trackIndex);
           });
         }
 
-        // Build clickable audio-track buttons
         trackListEl.innerHTML = "";
         cls.audio.forEach((track, i) => {
           const btn = document.createElement("button");
@@ -155,18 +276,21 @@
           trackListEl.appendChild(btn);
         });
 
-        // Load the first track by default
         loadTrack(0);
-
       } else {
         trackListEl.innerHTML = "";
         audioSourceEl.src = "";
         trackLabelEl.textContent = "No recording for this date";
         audioPlayerEl.load();
       }
+
+      // keep dropdown in sync when using Prev/Next
+      const selectEl = document.getElementById("class-select");
+      if (selectEl && selectEl.value !== String(index)) {
+        selectEl.value = String(index);
+      }
     }
 
-    // Navigation buttons
     document.getElementById("prev-btn").addEventListener("click", () => {
       if (currentIndex > 0) {
         currentIndex--;
@@ -181,7 +305,8 @@
       }
     });
 
-    // Load the first session on page load
+    // Initial setup
+    populateDateDropdown();
     renderClass(currentIndex);
   </script>
 </body>
