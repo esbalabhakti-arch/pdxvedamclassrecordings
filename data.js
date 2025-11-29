@@ -6,10 +6,12 @@ window.vedamClasses = [
     displayDate: "Nov-29-2025",
     image: "Images/20251129.jpg",
     imageAlt: "Class Nov 22, 2025",
-    audio: "Audio/20251129_Split.OGG",
-    audioLabel: "1. 11292025 — Class Recording - Split Phrases",
-    audio: "Audio/20251129_Full.OGG",
-    audioLabel: "2. 11222025 — Class Recording - Full Lines"
+  audio: [
+      	{ label: "1. 11292025 — Class Recording - Split Phrases", file: "Audio/20251129_Split.ogg" }
+  ],
+   audio: [
+      	{ label: "2. 11292025 — Class Recording - Full Lines", file: "Audio/20251129_Full.ogg" },
+    ],
   }
 
   // Add more sessions like this:
@@ -24,5 +26,6 @@ window.vedamClasses = [
   }
   */
 ];
+
 
 
