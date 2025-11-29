@@ -8,7 +8,6 @@ window.vedamClasses = [
     imageAlt: "Class Nov 22, 2025",
   audio: 
       	{ label: "1. 11292025 — Class Recording - Split phrases", file: "Audio/20251129_Split.ogg" },
-   audio: 
       	{ label: "2. 11292025 — Class Recording - Full Lines", file: "Audio/20251129_Full.ogg" }
   }
 
@@ -24,6 +23,7 @@ window.vedamClasses = [
   }
   */
 ];
+
 
 
 
