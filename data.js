@@ -3,7 +3,7 @@ window.vedamClasses = [
         id: "2025-11-29",
         displayDate: "Nov-29-2025",
         image: "Images/20251129.jpg",
-        imageAlt: "Class Nov 22, 2025",
+        imageAlt: "Class Nov 29, 2025",
         audio: [
             { 
                 label: "1. 11292025 — Class Recording - Split phrases", 
@@ -16,3 +16,4 @@ window.vedamClasses = [
         ]
     }
 ];
+
