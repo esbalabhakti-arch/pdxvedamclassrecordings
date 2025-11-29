@@ -2,398 +2,187 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>PDX Vedam Śravaṇa-Gṛham</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vedam Classes</title>
 
   <style>
-    :root {
-      --bg-dark: #050810;
-      --card-bg: #101626;
-      --card-border: #323b56;
-      --accent: #f6c340;
-      --accent-soft: rgba(246, 195, 64, 0.12);
-      --text-main: #f7f7ff;
-      --text-muted: #9ca3c8;
-      --pill-bg: #0f3b33;
-      --pill-text: #a7f3d0;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
     body {
       margin: 0;
-      min-height: 100vh;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        sans-serif;
-      background: radial-gradient(circle at top, #243b53 0, #050810 50%, #000 100%);
-      color: var(--text-main);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 16px;
+      font-family: sans-serif;
+      background-color: #0b1222;
+      color: white;
     }
 
-    .app-shell {
-      width: 100%;
-      max-width: 1400px;
-      background: rgba(3, 7, 18, 0.9);
-      border-radius: 20px;
-      border: 1px solid rgba(148, 163, 184, 0.25);
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8);
-      overflow: hidden;
-      display: grid;
-      grid-template-columns: minmax(0, 1.2fr);
-    }
-
-    .app-inner {
-      padding: 20px 24px 18px 24px;
-    }
-
-    header.app-header {
-      margin-bottom: 18px;
-    }
-
-    .title-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .app-title-text {
-      font-size: 1.3rem;
-      font-weight: 650;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-
-    .sanskrit-pill {
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: var(--pill-bg);
-      color: var(--pill-text);
-      font-size: 0.78rem;
-      letter-spacing: 0.08em;
-      border: 1px solid rgba(52, 211, 153, 0.3);
-      white-space: nowrap;
-    }
-
-    .subtitle {
-      margin-top: 6px;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
-
-    .controls-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin: 10px 0 14px;
-      flex-wrap: wrap;
-    }
-
-    .select-group {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
-
-    .select-group span.label {
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      font-size: 0.75rem;
-    }
-
-    select {
-      background: #020617;
-      color: var(--text-main);
-      border-radius: 999px;
-      padding: 6px 26px 6px 12px;
-      border: 1px solid rgba(148, 163, 184, 0.5);
-      font-size: 0.85rem;
-      appearance: none;
-      position: relative;
-    }
-
-    .date-select-wrapper {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-    }
-
-    .date-select-wrapper::after {
-      content: "▾";
-      position: absolute;
-      right: 10px;
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      pointer-events: none;
-    }
-
-    main.card-area {
-      background: radial-gradient(circle at top, #111827 0, #020617 80%);
-      border-radius: 16px;
-      padding: 24px;
-      border: 1px solid var(--card-border);
-      min-height: 280px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .date-heading {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: 4px;
-    }
-
-    .image-frame {
-      flex: 1;
-      border-radius: 14px;
-      border: 1px solid rgba(148, 163, 184, 0.22);
-      background: radial-gradient(circle at top left, #1f2937 0, #020617 60%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-
-    .image-frame img {
-      max-width: 100%;
-      max-height: 600px;
-      object-fit: contain;
-      display: block;
-    }
-
-    .image-placeholder {
-      color: var(--text-muted);
-      font-size: 0.9rem;
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
       padding: 20px;
-      text-align: center;
     }
 
-    section.audio-panel {
-      margin-top: 14px;
-    }
-
-    .audio-title {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.13em;
-      margin-bottom: 6px;
-    }
-
-    audio {
+    .class-image {
       width: 100%;
-      outline: none;
+      border-radius: 8px;
+      margin-bottom: 15px;
     }
 
-    .track-label-row {
-      margin-top: 6px;
-      display: flex;
-      justify-content: flex-start;
-      gap: 8px;
-      flex-wrap: wrap;
+    .audio-player {
+      width: 100%;
+      margin-top: 10px;
     }
 
-    .track-pill {
-      padding: 3px 9px;
-      border-radius: 999px;
-      border: 1px solid rgba(249, 250, 251, 0.12);
-      background: linear-gradient(135deg, var(--accent-soft), transparent);
-      font-size: 0.78rem;
-      color: var(--text-main);
-    }
-
-    .footer {
-      margin-top: 12px;
-      font-size: 0.72rem;
-      color: var(--text-muted);
+    .nav-buttons {
       display: flex;
       justify-content: space-between;
-      gap: 8px;
-      flex-wrap: wrap;
+      margin-top: 20px;
     }
 
-    .footer a {
-      color: var(--accent);
-      text-decoration: none;
+    button {
+      padding: 10px 14px;
+      background-color: #001f3f;
+      color: white;
+      border: 1px solid #445;
+      border-radius: 6px;
+      cursor: pointer;
     }
 
-    .header-main {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
+    button:hover {
+      background-color: #003366;
     }
 
-    .logo-box {
-      flex: 0 0 auto;
+    .track-label {
+      margin-top: 8px;
+      background: #001a2c;
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 14px;
     }
 
-    .logo-image {
-      height: 72px;
-      width: auto;
-      border-radius: 10px;
-      display: block;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    /* NEW: Track buttons */
+    .track-list {
+      margin-bottom: 10px;
     }
 
-    .header-text {
-      flex: 1 1 auto;
+    .track-button {
+      padding: 6px 10px;
+      margin-right: 6px;
+      margin-bottom: 6px;
+      font-size: 13px;
+      border-radius: 6px;
+      border: 1px solid #445;
+      background-color: #001a2c;
+      color: #cfe6ff;
+      cursor: pointer;
+    }
+
+    .track-button.active {
+      background-color: #0074d9;
+      color: white;
+      border-color: #66aaff;
     }
   </style>
+
+  <script src="data.js"></script>
 </head>
 
 <body>
-  <div class="app-shell">
-    <div class="app-inner">
-      <header class="app-header">
-        <div class="header-main">
-          <div class="logo-box">
-            <img
-              src="background_template1.jpg"
-              alt="Śaṅkarāchārya"
-              class="logo-image"
-            />
-          </div>
+  <div class="container">
+    <h2 id="session-date"></h2>
 
-          <div class="header-text">
-            <div class="title-row">
-              <div class="app-title-text">PDX VEDAM ŚRAVAṆA-GṚHAM</div>
-              <div class="sanskrit-pill">अभ्यासोपकरणम्</div>
-            </div>
-            <div class="subtitle">
-              Choose a date, and listen to the class recording.
-            </div>
-          </div>
-        </div>
-      </header>
+    <img id="class-image" class="class-image" src="" alt="" />
 
-      <section class="controls-row">
-        <div class="select-group">
-          <span class="label">Class Date:</span>
-          <div class="date-select-wrapper">
-            <select id="dateSelect"></select>
-          </div>
-        </div>
-      </section>
+    <!-- Audio section with multiple track buttons -->
+    <div id="track-list" class="track-list"></div>
 
-      <main class="card-area">
-        <div class="date-heading" id="dateHeading"></div>
+    <div class="track-label" id="track-label">Class Recording</div>
 
-        <div class="image-frame" id="imageFrame">
-          <div class="image-placeholder">
-            No class selected. Please choose a date from the dropdown above.
-          </div>
-        </div>
+    <audio id="audio-player" class="audio-player" controls>
+      <source id="audio-source" src="" type="audio/ogg" />
+      Your browser does not support the audio element.
+    </audio>
 
-        <section class="audio-panel">
-          <div class="audio-title">Class Recording</div>
-          <audio id="audioPlayer" controls preload="metadata">
-            <source id="audioSource" src="" type="audio/ogg" />
-            Your browser does not support the audio feature.
-          </audio>
-          <div class="track-label-row">
-            <div class="track-pill" id="trackLabel">No recording loaded</div>
-          </div>
-        </section>
-
-      </main>
-
-      <div class="footer">
-        <div>Tip: Add this page to your phone’s Home Screen to use it like an app.</div>
-        <div>contact: <a href="mailto:esbalabhakti@gmail.com">esbalabhakti@gmail.com</a></div>
-      </div>
+    <div class="nav-buttons">
+      <button id="prev-btn">Previous</button>
+      <button id="next-btn">Next</button>
     </div>
   </div>
 
-  <script src="data.js"></script>
-
   <script>
-    const dateSelectEl = document.getElementById("dateSelect");
-    const dateHeadingEl = document.getElementById("dateHeading");
-    const imageFrameEl = document.getElementById("imageFrame");
-    const audioPlayerEl = document.getElementById("audioPlayer");
-    const audioSourceEl = document.getElementById("audioSource");
-    const trackLabelEl = document.getElementById("trackLabel");
+    let currentIndex = 0;
 
-    function renderClass(cls) {
-      if (!cls) {
-        dateHeadingEl.textContent = "";
-        imageFrameEl.innerHTML =
-          '<div class="image-placeholder">No class selected.</div>';
-        audioSourceEl.src = "";
-        audioPlayerEl.load();
-        trackLabelEl.textContent = "No recording loaded";
-        return;
-      }
+    function renderClass(index) {
+      const cls = window.vedamClasses[index];
+      if (!cls) return;
 
-      dateHeadingEl.textContent = cls.displayDate || cls.id || "";
+      document.getElementById("session-date").textContent = cls.displayDate;
 
-      imageFrameEl.innerHTML = "";
-      if (cls.image) {
-        const img = document.createElement("img");
-        img.src = cls.image;
-        img.alt = cls.imageAlt || "";
-        imageFrameEl.appendChild(img);
+      const imageEl = document.getElementById("class-image");
+      imageEl.src = cls.image;
+      imageEl.alt = cls.imageAlt || "";
+
+      const audioPlayerEl = document.getElementById("audio-player");
+      const audioSourceEl = document.getElementById("audio-source");
+      const trackLabelEl = document.getElementById("track-label");
+      const trackListEl = document.getElementById("track-list");
+
+      audioPlayerEl.pause();
+
+      /* -----------------------------------------------
+         MULTI-AUDIO SYSTEM
+      ------------------------------------------------- */
+      if (cls.audio && Array.isArray(cls.audio) && cls.audio.length > 0) {
+        
+        // Function to load a specific audio track
+        function loadTrack(trackIndex) {
+          const track = cls.audio[trackIndex];
+          audioSourceEl.src = track.file;
+          trackLabelEl.textContent = track.label;
+          audioPlayerEl.load();
+
+          // Highlight selected button
+          [...trackListEl.children].forEach((btn, i) => {
+            btn.classList.toggle("active", i === trackIndex);
+          });
+        }
+
+        // Build clickable audio-track buttons
+        trackListEl.innerHTML = "";
+        cls.audio.forEach((track, i) => {
+          const btn = document.createElement("button");
+          btn.textContent = track.label;
+          btn.className = "track-button";
+          btn.addEventListener("click", () => loadTrack(i));
+          trackListEl.appendChild(btn);
+        });
+
+        // Load the first track by default
+        loadTrack(0);
+
       } else {
-        imageFrameEl.innerHTML =
-          '<div class="image-placeholder">No mantra image available.</div>';
-      }
-
-      if (cls.audio) {
-        audioSourceEl.src = cls.audio;
-        audioPlayerEl.load();
-        trackLabelEl.textContent = cls.audioLabel || "Class Recording";
-      } else {
+        trackListEl.innerHTML = "";
         audioSourceEl.src = "";
-        audioPlayerEl.load();
         trackLabelEl.textContent = "No recording for this date";
+        audioPlayerEl.load();
       }
     }
 
-    function populateDates() {
-      dateSelectEl.innerHTML = "";
-
-      if (!window.vedamClasses || vedamClasses.length === 0) {
-        const opt = document.createElement("option");
-        opt.value = "";
-        opt.textContent = "No classes configured";
-        dateSelectEl.appendChild(opt);
-        renderClass(null);
-        return;
+    // Navigation buttons
+    document.getElementById("prev-btn").addEventListener("click", () => {
+      if (currentIndex > 0) {
+        currentIndex--;
+        renderClass(currentIndex);
       }
-
-      vedamClasses.forEach((cls) => {
-        const opt = document.createElement("option");
-        opt.value = cls.id;
-        opt.textContent = cls.displayDate;
-        dateSelectEl.appendChild(opt);
-      });
-
-      const first = vedamClasses[0];
-      dateSelectEl.value = first.id;
-      renderClass(first);
-    }
-
-    dateSelectEl.addEventListener("change", () => {
-      const selectedId = dateSelectEl.value;
-      const cls = vedamClasses.find((c) => c.id === selectedId);
-      renderClass(cls || null);
     });
 
-    populateDates();
+    document.getElementById("next-btn").addEventListener("click", () => {
+      if (currentIndex < window.vedamClasses.length - 1) {
+        currentIndex++;
+        renderClass(currentIndex);
+      }
+    });
+
+    // Load the first session on page load
+    renderClass(currentIndex);
   </script>
 </body>
 </html>
