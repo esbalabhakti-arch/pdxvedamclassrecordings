@@ -14,5 +14,35 @@ window.vedamClasses = [
                 file: "Audio/20251129_Full.ogg" 
             }
         ]
-    }
+    },
+
+    {
+        id: "2025-12-13",
+        displayDate: "Dec-13-2025",
+        image: "Images/20251213.jpg",
+        imageAlt: "Class Dec 13, 2025",
+        audio: [
+            { 
+                label: "1. Audio_1", 
+                file: "Audio/20251213_1.mp4" 
+            },
+            { 
+                label: "2. Audio_2", 
+                file: "Audio/20251213_2.m4a" 
+            },
+            { 
+                label: "3. Audio_3", 
+                file: "Audio/20251213_3.m4a" 
+            },
+            { 
+                label: "4. Audio_4", 
+                file: "Audio/20251213_4.m4a" 
+            },
+            { 
+                label: "5. Audio_5", 
+                file: "Audio/20251213_5.m4a" 
+            }
+        ]
+    }  
 ];
+
