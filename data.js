@@ -52,10 +52,6 @@ window.vedamClasses = [
         imageAlt: "Class Dec 21, 2025",
         audio: [
             { 
-                label: "1. Audio_1", 
-                file: "Audio/20251221_1.ogg" 
-            },
-            { 
                 label: "2. Audio_2", 
                 file: "Audio/20251221_2.ogg" 
             },
@@ -66,6 +62,7 @@ window.vedamClasses = [
         ]
     }  
 ];
+
 
 
 
