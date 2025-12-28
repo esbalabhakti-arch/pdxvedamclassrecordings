@@ -60,8 +60,26 @@ window.vedamClasses = [
                 file: "Audio/20251221_3.mp4" 
             }
         ]
-    }  
+    },
+
+         {
+        id: "2025-12-28",
+        displayDate: "Dec-28-2025",
+        image: "Images/20251228.jpg",
+        imageAlt: "Class Dec 28, 2025",
+        audio: [
+            { 
+                label: "1. Audio_1", 
+                file: "Audio/20251228_1.mp4" 
+            },
+            { 
+                label: "2. Audio_2", 
+                file: "Audio/20251221_2.mp4" 
+            }
+        ]
+    } 
 ];
+
 
 
 
