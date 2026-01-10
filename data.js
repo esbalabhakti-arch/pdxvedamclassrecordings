@@ -99,13 +99,16 @@ window.vedamClasses = [
         audio: [
             { 
                 label: "1. Audio_1", 
-                file: "Audio/20260110_1.ogg", 
+                file: "Audio/20260110_1.ogg"
+            }, 
+            {
                 label: "2. Audio_2", 
                 file: "Audio/20260110_2.ogg"
             }    
         ]
     }
 ];
+
 
 
 
