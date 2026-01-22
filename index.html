@@ -10,16 +10,14 @@
     (function() {
       const ACCESS_PASSWORD = "pdxvedam"; // ← change this to whatever you like
 
-      // If already authenticated this session, skip the prompt
       if (sessionStorage.getItem("sv_auth_ok") === "yes") return;
 
       const input = prompt("Enter password to access this page:");
       if (input === ACCESS_PASSWORD) {
         sessionStorage.setItem("sv_auth_ok", "yes");
-        return; // allow the rest of the page to load normally
+        return;
       }
 
-      // Wrong or cancelled: replace page with an "access denied" message
       document.write(
         "<!DOCTYPE html><html><head><meta charset='utf-8'><title>Access denied</title></head>" +
         "<body style='background:#050816;color:#f9fafb;font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;" +
@@ -60,7 +58,6 @@
       padding: 16px;
     }
 
-    /* NEW: whole page split into left-half and right-half */
     .page-shell {
       width: 100%;
       max-width: 1800px;
@@ -74,7 +71,6 @@
       .page-shell > * { margin-bottom: 14px; }
     }
 
-    /* Your existing shell (LEFT HALF) – unchanged */
     .app-shell {
       width: 100%;
       max-width: 1400px;
@@ -137,16 +133,6 @@
       color: var(--text-muted);
     }
 
-    .badge {
-      padding: 4px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(96, 165, 250, 0.7);
-      font-size: 0.78rem;
-      color: #bfdbfe;
-      background: rgba(15, 23, 42, 0.9);
-      white-space: nowrap;
-    }
-
     .header-main {
       display: flex;
       align-items: flex-start;
@@ -164,9 +150,7 @@
     }
 
     .header-text { flex: 1 1 auto; }
-  </style>
 
-  <style>
     .date-row {
       display: flex;
       align-items: center;
@@ -188,7 +172,6 @@
       min-width: 180px;
       cursor: pointer;
       appearance: none;
-      position: relative;
       background-image: linear-gradient(45deg, transparent 50%, #e5e7eb 50%),
         linear-gradient(135deg, #e5e7eb 50%, transparent 50%),
         linear-gradient(to right, #374151, #374151);
@@ -365,7 +348,7 @@
 <body>
   <div class="page-shell">
 
-    <!-- LEFT HALF: EXACT existing page -->
+    <!-- LEFT HALF: existing page -->
     <div class="app-shell">
       <main class="app-main">
         <div class="title-row">
@@ -441,7 +424,7 @@
 
       <div class="track-label">
         <span>Now Playing</span>
-        <strong id="gnpTrackLabel">No recording loaded</strong>
+        <strong id="gnpTrackLabel">Loading…</strong>
       </div>
 
       <audio id="gnpAudioPlayer" class="audio-player" controls>
@@ -449,8 +432,8 @@
         Your browser does not support the audio element.
       </audio>
 
-      <p class="gnp-note">
-        Files are expected inside <strong>Audio_GNP/</strong> (e.g., <code>Audio_GNP/144.ogg</code>).
+      <p id="gnpStatus" class="gnp-note">
+        Reading <strong>Audio_GNP/</strong> from GitHub…
       </p>
     </aside>
 
@@ -558,51 +541,94 @@
       renderClass(cls || null);
     });
 
-    // ===== Right-half: Ganapatigal independent player =====
+    // ===== Right-half: Ganapatigal auto-scan via GitHub API =====
     const gnpTrackListEl = document.getElementById("gnpTrackList");
     const gnpAudioPlayerEl = document.getElementById("gnpAudioPlayer");
     const gnpAudioSourceEl = document.getElementById("gnpAudioSource");
     const gnpTrackLabelEl = document.getElementById("gnpTrackLabel");
+    const gnpStatusEl = document.getElementById("gnpStatus");
 
-    function buildGnpTracks() {
-      // If user provided an explicit list, use it.
-      if (Array.isArray(window.gnpTracks) && window.gnpTracks.length > 0) {
-        return window.gnpTracks;
-      }
-
-      // Otherwise try to generate from a numeric range.
-      const r = window.gnpRange;
-      if (!r || typeof r.start !== "number" || typeof r.end !== "number") return [];
-
-      const folder = (r.folder || "Audio_GNP").replace(/\/+$/g, "");
-      const ext = (r.ext || "ogg").replace(/^\./g, "");
-      const tracks = [];
-
-      const start = Math.min(r.start, r.end);
-      const end = Math.max(r.start, r.end);
-
-      for (let n = start; n <= end; n++) {
-        tracks.push({
-          label: String(n),
-          file: `${folder}/${n}.${ext}`
-        });
-      }
-      return tracks;
+    function inferRepoFromGitHubPages() {
+      // Typical GitHub Pages:
+      //   host:  esbalabhakti-arch.github.io
+      //   path:  /pdxvedamclassrecordings/...
+      const host = window.location.hostname || "";
+      const owner = host.split(".")[0] || "";
+      const parts = (window.location.pathname || "/").split("/").filter(Boolean);
+      const repo = parts.length > 0 ? parts[0] : ""; // first path segment
+      return { owner, repo };
     }
 
-    function initGnpPanel() {
-      const tracks = buildGnpTracks();
+    function prettifyFilename(name) {
+      // Remove extension
+      let s = name.replace(/\.[^.]+$/, "");
+      // Replace underscores/dashes with spaces
+      s = s.replace(/[_-]+/g, " ");
+      // Collapse spaces
+      s = s.replace(/\s+/g, " ").trim();
+      return s || name;
+    }
 
+    function renderGnpError(msg) {
+      gnpTrackListEl.innerHTML = "";
+      const d = document.createElement("div");
+      d.className = "image-placeholder";
+      d.textContent = msg;
+      gnpTrackListEl.appendChild(d);
+
+      gnpTrackLabelEl.textContent = "No recordings available";
+      gnpAudioSourceEl.src = "";
+      gnpAudioPlayerEl.load();
+    }
+
+    async function fetchGnpOggFiles() {
+      const { owner, repo } = inferRepoFromGitHubPages();
+
+      // If user is testing locally (file://) or path is not /repo/, repo inference may fail.
+      // In that case, hardcode below:
+      const fallbackOwner = "esbalabhakti-arch";
+      const fallbackRepo = "pdxvedamclassrecordings";
+
+      const useOwner = owner || fallbackOwner;
+      const useRepo = repo || fallbackRepo;
+
+      const apiUrl = `https://api.github.com/repos/${useOwner}/${useRepo}/contents/Audio_GNP`;
+
+      const res = await fetch(apiUrl, {
+        headers: {
+          "Accept": "application/vnd.github+json"
+        }
+      });
+
+      if (!res.ok) {
+        throw new Error(`GitHub API error ${res.status} while reading Audio_GNP`);
+      }
+
+      const items = await res.json();
+
+      if (!Array.isArray(items)) {
+        throw new Error("Unexpected GitHub API response (not a directory listing).");
+      }
+
+      const oggs = items
+        .filter(it => it && it.type === "file" && typeof it.name === "string")
+        .filter(it => it.name.toLowerCase().endsWith(".ogg"))
+        .map(it => ({
+          name: it.name,
+          label: prettifyFilename(it.name),
+          url: it.download_url // direct file URL from GitHub
+        }))
+        .sort((a, b) => a.label.localeCompare(b.label, undefined, { numeric: true }));
+
+      return oggs;
+    }
+
+    function initGnpPanelFromTracks(tracks) {
       gnpTrackListEl.innerHTML = "";
 
       if (!tracks || tracks.length === 0) {
-        gnpTrackLabelEl.textContent = "No recordings configured";
-        gnpAudioSourceEl.src = "";
-        gnpAudioPlayerEl.load();
-        const msg = document.createElement("div");
-        msg.className = "image-placeholder";
-        msg.textContent = "No Ganapatigal recordings found in data.js (gnpRange / gnpTracks).";
-        gnpTrackListEl.appendChild(msg);
+        renderGnpError("No .ogg files found inside Audio_GNP/");
+        gnpStatusEl.textContent = "Audio_GNP exists, but no .ogg files were found.";
         return;
       }
 
@@ -610,10 +636,10 @@
         const t = tracks[index];
         if (!t) return;
 
-        gnpAudioSourceEl.src = t.file;
+        gnpAudioSourceEl.src = t.url;
         gnpAudioPlayerEl.load();
         gnpAudioPlayerEl.play().catch(() => {});
-        gnpTrackLabelEl.textContent = t.label || "Ganapatigal Recording";
+        gnpTrackLabelEl.textContent = t.label;
 
         [...gnpTrackListEl.children].forEach((btn, i) => {
           btn.classList.toggle("active", i === index);
@@ -624,12 +650,30 @@
         const btn = document.createElement("button");
         btn.type = "button";
         btn.className = "chip";
-        btn.textContent = t.label || t.file;
+        btn.textContent = t.label;
+        btn.title = t.name;
         btn.addEventListener("click", () => loadGnpTrack(index));
         gnpTrackListEl.appendChild(btn);
       });
 
+      gnpStatusEl.innerHTML = `Found <strong>${tracks.length}</strong> .ogg files in <strong>Audio_GNP/</strong>.`;
       loadGnpTrack(0);
+    }
+
+    async function initGnpPanel() {
+      gnpTrackLabelEl.textContent = "Loading…";
+      gnpStatusEl.textContent = "Reading Audio_GNP from GitHub…";
+
+      try {
+        const tracks = await fetchGnpOggFiles();
+        initGnpPanelFromTracks(tracks);
+      } catch (err) {
+        console.error(err);
+        renderGnpError("Could not read Audio_GNP automatically.");
+        gnpStatusEl.textContent =
+          "If this repo is private or GitHub rate-limits you, auto-loading may fail. " +
+          "Make sure Audio_GNP is at repo root and the site is served from GitHub Pages.";
+      }
     }
 
     // Boot
