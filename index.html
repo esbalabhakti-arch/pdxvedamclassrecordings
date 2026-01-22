@@ -46,15 +46,12 @@
       --chip-active-text: #ffffff;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
       min-height: 100vh;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background: radial-gradient(circle at top, #000814 0, #020617 40%, #000 100%);
       color: var(--text-main);
       display: flex;
@@ -63,6 +60,21 @@
       padding: 16px;
     }
 
+    /* NEW: whole page split into left-half and right-half */
+    .page-shell {
+      width: 100%;
+      max-width: 1800px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 14px;
+    }
+
+    @media (max-width: 1100px) {
+      .page-shell { display: block; }
+      .page-shell > * { margin-bottom: 14px; }
+    }
+
+    /* Your existing shell (LEFT HALF) – unchanged */
     .app-shell {
       width: 100%;
       max-width: 1400px;
@@ -74,12 +86,11 @@
       display: grid;
       grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
       gap: 0;
+      height: 100%;
     }
 
     @media (max-width: 900px) {
-      .app-shell {
-        display: block;
-      }
+      .app-shell { display: block; }
     }
 
     .app-main {
@@ -142,9 +153,7 @@
       gap: 12px;
     }
 
-    .logo-box {
-      flex: 0 0 auto;
-    }
+    .logo-box { flex: 0 0 auto; }
 
     .logo-image {
       height: 72px;
@@ -154,9 +163,7 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     }
 
-    .header-text {
-      flex: 1 1 auto;
-    }
+    .header-text { flex: 1 1 auto; }
   </style>
 
   <style>
@@ -215,10 +222,7 @@
       justify-content: center;
     }
 
-    .image-placeholder {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-    }
+    .image-placeholder { font-size: 0.9rem; color: var(--text-muted); }
 
     .image {
       max-width: 100%;
@@ -258,10 +262,7 @@
       color: #9ca3c8;
     }
 
-    .audio-player {
-      width: 100%;
-      margin-bottom: 10px;
-    }
+    .audio-player { width: 100%; margin-bottom: 10px; }
 
     .audio-note {
       font-size: 0.78rem;
@@ -300,20 +301,6 @@
       margin-bottom: 4px;
     }
 
-    .sidebar-title {
-      font-size: 0.82rem;
-      text-transform: uppercase;
-      letter-spacing: 0.11em;
-      color: #9ca3c8;
-      margin-bottom: 10px;
-    }
-
-    .sidebar-description {
-      font-size: 0.85rem;
-      color: #d1d5db;
-      margin-bottom: 14px;
-    }
-
     .sidebar-footer {
       margin-top: 18px;
       font-size: 0.78rem;
@@ -325,129 +312,154 @@
       text-decoration: none;
     }
 
-    .sidebar-footer a:hover {
-      text-decoration: underline;
-    }
-
-    .info-card {
-      border-radius: 16px;
-      border: 1px solid rgba(148, 163, 184, 0.45);
-      background: radial-gradient(circle at top left, rgba(37, 99, 235, 0.35), #020617 40%);
-      padding: 14px 12px;
-      margin-bottom: 12px;
-      font-size: 0.85rem;
-      line-height: 1.45;
-    }
-
-    .info-chip-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 8px;
-    }
-
-    .info-chip {
-      font-size: 0.75rem;
-      padding: 3px 8px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      background: rgba(15, 23, 42, 0.9);
-      color: #e5e7eb;
-    }
+    .sidebar-footer a:hover { text-decoration: underline; }
 
     @media (max-width: 900px) {
-      body {
-        align-items: stretch;
-      }
+      body { align-items: stretch; }
+      .app-shell { border-radius: 0; box-shadow: none; }
+      .app-main, .app-sidebar { padding: 14px 14px 16px; }
+      .frame { min-height: 280px; }
+    }
 
-      .app-shell {
-        border-radius: 0;
-        box-shadow: none;
-      }
+    /* RIGHT HALF panel styling */
+    .gnp-shell {
+      width: 100%;
+      background: rgba(3, 7, 18, 0.9);
+      border-radius: 20px;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8);
+      overflow: hidden;
+      padding: 18px 18px 20px;
+      background: radial-gradient(circle at top right, #111827 0, #020617 55%);
+      min-height: 100%;
+    }
 
-      .app-main,
-      .app-sidebar {
-        padding: 14px 14px 16px;
-      }
+    .gnp-title {
+      margin: 0 0 6px;
+      font-size: 1.15rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
 
-      .frame {
-        min-height: 280px;
-      }
+    .gnp-subtitle {
+      margin: 0 0 14px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .gnp-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .gnp-note {
+      font-size: 0.78rem;
+      color: #9ca3c8;
+      margin-top: 10px;
     }
   </style>
 </head>
 
 <body>
-  <div class="app-shell">
-    <main class="app-main">
-      <div class="title-row">
-        <div class="header-main">
-          <div class="logo-box">
-            <img
-              src="Images/background_template1.jpg"
-              alt="Mahaperiyava"
-              class="logo-image"
-            />
-          </div>
-          <div class="header-text">
-            <div class="title-text">
-              <h1>PDX VEDAM ŚRAVAṆA-GṚHAM</h1>
-              <p class="subtitle">
-                Choose a date, and listen to the class recording.
-              </p>
+  <div class="page-shell">
+
+    <!-- LEFT HALF: EXACT existing page -->
+    <div class="app-shell">
+      <main class="app-main">
+        <div class="title-row">
+          <div class="header-main">
+            <div class="logo-box">
+              <img
+                src="Images/background_template1.jpg"
+                alt="Mahaperiyava"
+                class="logo-image"
+              />
+            </div>
+            <div class="header-text">
+              <div class="title-text">
+                <h1>PDX VEDAM ŚRAVAṆA-GṚHAM</h1>
+                <p class="subtitle">
+                  Choose a date, and listen to the class recording.
+                </p>
+              </div>
             </div>
           </div>
         </div>
-        
-      </div>
 
-      <div class="date-row">
-        <span>Class Date</span>
-        <select id="dateSelect" class="date-select"></select>
-      </div>
-
-      <div class="divider"></div>
-
-      <section>
-        <h2 id="dateHeading" class="date-heading"></h2>
-
-        <div id="imageFrame" class="frame">
-          <div class="image-placeholder">Choose a date to see the class notes.</div>
+        <div class="date-row">
+          <span>Class Date</span>
+          <select id="dateSelect" class="date-select"></select>
         </div>
 
-        <div class="track-label">
-          <span>Now Playing</span>
-          <strong id="trackLabel">No recording loaded</strong>
+        <div class="divider"></div>
+
+        <section>
+          <h2 id="dateHeading" class="date-heading"></h2>
+
+          <div id="imageFrame" class="frame">
+            <div class="image-placeholder">Choose a date to see the class notes.</div>
+          </div>
+
+          <div class="track-label">
+            <span>Now Playing</span>
+            <strong id="trackLabel">No recording loaded</strong>
+          </div>
+
+          <audio id="audioPlayer" class="audio-player" controls>
+            <source id="audioSource" src="" type="audio/ogg" />
+            Your browser does not support the audio element.
+          </audio>
+
+          <p class="audio-note">
+            Please listen to the class, follow along with the text above, and chant loudly.
+          </p>
+        </section>
+      </main>
+
+      <aside class="app-sidebar">
+        <div>
+          <div class="chip-label">Audio Tracks</div>
+          <div id="trackList" class="chip-row"></div>
         </div>
 
-        <audio id="audioPlayer" class="audio-player" controls>
-          <source id="audioSource" src="" type="audio/ogg" />
-          Your browser does not support the audio element.
-        </audio>
+        <div class="sidebar-footer">
+          contact:
+          <a href="mailto:esbalabhakti@gmail.com">esbalabhakti@gmail.com</a>
+        </div>
+      </aside>
+    </div>
 
-        <p class="audio-note">
-          Please listen to the class, follow along with the text above, and chant loudly.
-        </p>
-      </section>
-    </main>
+    <!-- RIGHT HALF: GANAPATIGAL VEDIC RECORDINGS -->
+    <aside class="gnp-shell">
+      <h2 class="gnp-title">GANAPATIGAL VEDIC RECORDINGS</h2>
+      <p class="gnp-subtitle">Choose a track and play it using the independent player below.</p>
 
-    <aside class="app-sidebar">
-      
-      <div>
-        <div class="chip-label">Audio Tracks</div>
-        <div id="trackList" class="chip-row"></div>
+      <div class="chip-label">Audio Files</div>
+      <div id="gnpTrackList" class="gnp-list"></div>
+
+      <div class="track-label">
+        <span>Now Playing</span>
+        <strong id="gnpTrackLabel">No recording loaded</strong>
       </div>
 
-      <div class="sidebar-footer">
-        contact:
-        <a href="mailto:esbalabhakti@gmail.com">esbalabhakti@gmail.com</a>
-      </div>
+      <audio id="gnpAudioPlayer" class="audio-player" controls>
+        <source id="gnpAudioSource" src="" type="audio/ogg" />
+        Your browser does not support the audio element.
+      </audio>
+
+      <p class="gnp-note">
+        Files are expected inside <strong>Audio_GNP/</strong> (e.g., <code>Audio_GNP/144.ogg</code>).
+      </p>
     </aside>
+
   </div>
 
   <script src="data.js"></script>
 
   <script>
+    // ===== Left-half existing logic (unchanged) =====
     const dateSelectEl = document.getElementById("dateSelect");
     const dateHeadingEl = document.getElementById("dateHeading");
     const imageFrameEl = document.getElementById("imageFrame");
@@ -546,8 +558,83 @@
       renderClass(cls || null);
     });
 
+    // ===== Right-half: Ganapatigal independent player =====
+    const gnpTrackListEl = document.getElementById("gnpTrackList");
+    const gnpAudioPlayerEl = document.getElementById("gnpAudioPlayer");
+    const gnpAudioSourceEl = document.getElementById("gnpAudioSource");
+    const gnpTrackLabelEl = document.getElementById("gnpTrackLabel");
+
+    function buildGnpTracks() {
+      // If user provided an explicit list, use it.
+      if (Array.isArray(window.gnpTracks) && window.gnpTracks.length > 0) {
+        return window.gnpTracks;
+      }
+
+      // Otherwise try to generate from a numeric range.
+      const r = window.gnpRange;
+      if (!r || typeof r.start !== "number" || typeof r.end !== "number") return [];
+
+      const folder = (r.folder || "Audio_GNP").replace(/\/+$/g, "");
+      const ext = (r.ext || "ogg").replace(/^\./g, "");
+      const tracks = [];
+
+      const start = Math.min(r.start, r.end);
+      const end = Math.max(r.start, r.end);
+
+      for (let n = start; n <= end; n++) {
+        tracks.push({
+          label: String(n),
+          file: `${folder}/${n}.${ext}`
+        });
+      }
+      return tracks;
+    }
+
+    function initGnpPanel() {
+      const tracks = buildGnpTracks();
+
+      gnpTrackListEl.innerHTML = "";
+
+      if (!tracks || tracks.length === 0) {
+        gnpTrackLabelEl.textContent = "No recordings configured";
+        gnpAudioSourceEl.src = "";
+        gnpAudioPlayerEl.load();
+        const msg = document.createElement("div");
+        msg.className = "image-placeholder";
+        msg.textContent = "No Ganapatigal recordings found in data.js (gnpRange / gnpTracks).";
+        gnpTrackListEl.appendChild(msg);
+        return;
+      }
+
+      function loadGnpTrack(index) {
+        const t = tracks[index];
+        if (!t) return;
+
+        gnpAudioSourceEl.src = t.file;
+        gnpAudioPlayerEl.load();
+        gnpAudioPlayerEl.play().catch(() => {});
+        gnpTrackLabelEl.textContent = t.label || "Ganapatigal Recording";
+
+        [...gnpTrackListEl.children].forEach((btn, i) => {
+          btn.classList.toggle("active", i === index);
+        });
+      }
+
+      tracks.forEach((t, index) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "chip";
+        btn.textContent = t.label || t.file;
+        btn.addEventListener("click", () => loadGnpTrack(index));
+        gnpTrackListEl.appendChild(btn);
+      });
+
+      loadGnpTrack(0);
+    }
+
+    // Boot
     populateDates();
+    initGnpPanel();
   </script>
 </body>
 </html>
-
