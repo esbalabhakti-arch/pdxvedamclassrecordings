@@ -197,6 +197,18 @@ window.vedamClasses = [
                 file: "Audio/20260228.ogg"
             }
         ]
+    },
+             {
+        id: "2026-03-07",
+        displayDate: "Mar-07-2026",
+        image: "Images/20260307.jpg",
+        imageAlt: "Class Mar 07, 2026",
+        audio: [
+            {
+                label: "1. Audio_1",
+                file: "Audio/20260307.ogg"
+            }
+        ]
     }
 ];
 
@@ -228,6 +240,7 @@ window.gnpRange = {
  *   { label: "Ganapati 2", file: "Audio_GNP/something_else.ogg" },
  * ];
  */
+
 
 
 
