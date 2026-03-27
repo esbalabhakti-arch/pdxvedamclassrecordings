@@ -198,7 +198,7 @@ window.vedamClasses = [
             }
         ]
     },
-             {
+    {
         id: "2026-03-07",
         displayDate: "Mar-07-2026",
         image: "Images/20260307.jpg",
@@ -207,6 +207,30 @@ window.vedamClasses = [
             {
                 label: "1. Audio_1",
                 file: "Audio/20260307.ogg"
+            }
+        ]
+    },
+    {
+        id: "2026-03-14",
+        displayDate: "Mar-14-2026",
+        image: "Images/20260314.jpg",
+        imageAlt: "Class Mar 14, 2026",
+        audio: [
+            {
+                label: "1. Audio_1",
+                file: "Audio/20260314.ogg"
+            }
+        ]
+    },
+    {
+        id: "2026-03-21",
+        displayDate: "Mar-21-2026",
+        image: "Images/20260321.jpg",
+        imageAlt: "Class Mar 21, 2026",
+        audio: [
+            {
+                label: "1. Audio_1",
+                file: "Audio/20260321.ogg"
             }
         ]
     }
