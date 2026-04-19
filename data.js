@@ -257,6 +257,30 @@ window.vedamClasses = [
                 file: "Audio/20260404.ogg"
             }
         ]
+    },
+        {
+        id: "2026-04-11",
+        displayDate: "Apr-11-2026",
+        image: "Images/20260411.jpg",
+        imageAlt: "Class Apr 11, 2026",
+        audio: [
+            {
+                label: "1. Audio_1",
+                file: "Audio/20260411.ogg"
+            }
+        ]
+    },
+        {
+        id: "2026-04-18",
+        displayDate: "Apr-18-2026",
+        image: "Images/20260418.jpg",
+        imageAlt: "Class Apr 18, 2026",
+        audio: [
+            {
+                label: "1. Audio_1",
+                file: "Audio/20260418.ogg"
+            }
+        ]
     }
 ];
 
